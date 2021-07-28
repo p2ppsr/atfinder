@@ -1,0 +1,36 @@
+{
+  "name": "atfinder",
+  "version": "1.0.0",
+  "description": "Paymail Client",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "doc": "documentation readme src/index.js --section=API",
+    "lint": "standard --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p2ppsr/atfinder.git"
+  },
+  "keywords": [
+    "Bitcoin",
+    "BSV",
+    "SPV",
+    "paymail"
+  ],
+  "author": "Peer-to-peer Privacy Systems Research LLC",
+  "license": "Open BSV License",
+  "bugs": {
+    "url": "https://github.com/p2ppsr/atfinder/issues"
+  },
+  "homepage": "https://github.com/p2ppsr/atfinder#readme",
+  "devDependencies": {
+    "documentation": "^13.2.5",
+    "jest": "^26.6.3",
+    "standard": "^16.0.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
