@@ -5,5 +5,7 @@ module.exports = {
   submitSPVTransaction: require('./submitSPVTransaction'),
   deprecatedSubmitP2PTransaction: require('./deprecatedSubmitP2PTransaction'),
   verifyPublicKeyForPaymail: require('./verifyPublicKeyForPaymail'),
-  getIdentityKeyForPaymail: require('./getIdentityKeyForPaymail')
+  getIdentityKeyForPaymail: require('./getIdentityKeyForPaymail'),
+  getCertifiedKey: require('./getCertifiedKey'),
+  submitType42Payment: require('./submitType42Payment')
 }

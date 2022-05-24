@@ -17,9 +17,6 @@ describe('atfinder', () => {
     expect(result).toEqual(expect.objectContaining({
       bsvalias: '1.0',
       capabilities: expect.objectContaining({
-        '2a40af698840': 'https://dojo.babbage.systems/requestOutputsForP2PTransaction/{alias}@{domain.tld}',
-        '5f1323cddf31': 'https://dojo.babbage.systems/submitP2PTransaction/{alias}@{domain.tld}',
-        '6745385c3fc0': false,
         a9f510c16bde: 'https://dojo.babbage.systems/verifyPublicKeyForPaymail/{alias}@{domain.tld}/{pubkey}',
         f12f968c92d6: 'https://dojo.babbage.systems/getAvatarForPaymail/{alias}@{domain.tld}',
         pki: 'https://dojo.babbage.systems/getIdentityKeyForPaymail/{alias}@{domain.tld}'

@@ -18,7 +18,17 @@ const VALID_BSVALIAS = {
       a9f510c16bde: 'a9f510c16bde/{alias}@{domain.tld}/{pubkey}',
       f12f968c92d6: 'f12f968c92d6/{alias}@{domain.tld}',
       pki: 'pki/{alias}@{domain.tld}',
-      e70928472537: 'e70928472537/{alias}@{domain.tld}'
+      e70928472537: 'e70928472537/{alias}@{domain.tld}',
+      "747a1532f8fd": {
+        "initialRequest": "/authrite/initialRequest",
+        "cc7e1ab66d10": "/getCertifiedKey/{alias}@{domain.tld}",
+        "92be59b59616": {
+          "protocols": {
+            "3241645161d8": true
+          },
+          "paymentURL": "/submitSPVTransaction/{alias}@{domain.tld}"
+        }
+      }
     }
   }
 }
@@ -111,6 +121,49 @@ describe('atfinder', () => {
         envelopeField: 'MOCK_VALUE'
       }
     ])
+  })
+  it('getCertifiedKey', async () => {
+    const authriteClient = {
+      request: jest.fn((url, config) => {
+        return {
+          body: Buffer.from(JSON.stringify({
+            server: 'response'
+          }), 'utf8')
+        }
+      })
+    }
+    const result = await atfinder.getCertifiedKey(
+      'ty@tyweb.us',
+      authriteClient
+    )
+    expect(result).toEqual({ server: 'response' })
+    expect(authriteClient.request)
+      .toHaveBeenLastCalledWith(
+        '/getCertifiedKey/ty@tyweb.us',
+        { method: 'GET' }
+      )
+  })
+  it('submitType42Payment', async () => {
+    const authriteClient = {
+      request: jest.fn((url, config) => {
+        return {
+          body: Buffer.from(JSON.stringify({
+            server: 'response'
+          }), 'utf8')
+        }
+      })
+    }
+    const result = await atfinder.submitType42Payment(
+      'ty@tyweb.us',
+      { test: 'body' },
+      authriteClient
+    )
+    expect(result).toEqual({ server: 'response' })
+    expect(authriteClient.request)
+      .toHaveBeenLastCalledWith(
+        '/submitSPVTransaction/ty@tyweb.us',
+        { method: 'POST', body: { test: 'body' } }
+      )
   })
   it('deprecatedSubmitP2PTransaction', async () => {
     axios.post.mockReturnValueOnce({

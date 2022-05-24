@@ -51,6 +51,10 @@ await atfinder.submitSPVTransaction(paymail, envelope)
     *   [Parameters](#parameters-5)
 *   [getIdentityKeyForPaymail](#getidentitykeyforpaymail)
     *   [Parameters](#parameters-6)
+*   [getCertifiedKey](#getcertifiedkey)
+    *   [Parameters](#parameters-7)
+*   [submitType42Payment](#submittype42payment)
+    *   [Parameters](#parameters-8)
 
 ### getServerConfig
 
@@ -188,6 +192,46 @@ Use this function to get the identity key of a handle.
 #### Parameters
 
 *   `paymail` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** the handle of the target
+*   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** optional configuration options
+
+    *   `config.dohServer` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** DNS-over-HTTPS resolver (optional, default `https://dns.google.com/resolve`)
+
+<!---->
+
+*   Throws **any** appropriate errors if the request did not succeed
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** response from the Paymail server
+
+### getCertifiedKey
+
+Use this function to get the Authrite type-42 certified key for a Paymail
+handle. Requires an initialized Authrite client as a parameter.
+
+#### Parameters
+
+*   `paymail` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** the handle of the target
+*   `authriteClient` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the initialized Authrite client to use
+*   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** optional configuration options
+
+    *   `config.dohServer` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** DNS-over-HTTPS resolver (optional, default `https://dns.google.com/resolve`)
+
+<!---->
+
+*   Throws **any** appropriate errors if the request did not succeed
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** response from the Paymail server
+
+### submitType42Payment
+
+Use this function to submit a type-42 payment to a Paymail server.
+
+Note that [hashwrap](https://github.com/p2ppsr/hashwrap) can be used to create SPV envelopes.
+
+#### Parameters
+
+*   `paymail` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** the handle of the recipient
+*   `body` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the body of the request, including `protocol` and `transactions` fields
+*   `authriteClient` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** an initialized Authrite client to use
 *   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** optional configuration options
 
     *   `config.dohServer` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** DNS-over-HTTPS resolver (optional, default `https://dns.google.com/resolve`)
