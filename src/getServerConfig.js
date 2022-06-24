@@ -18,6 +18,13 @@ module.exports = async (
   { dohServer = 'https://dns.google.com/resolve' } = {}
 ) => {
   const domain = paymail.split('@')[1]
+  // Allow resolving Paymails when the server is running locally for testing
+  if (domain === 'localhost' || domain.startsWith('localhost:')) {
+    const { data: serverConfig } = await axios.get(
+    `http://${domain}/.well-known/bsvalias`
+    )
+    return serverConfig
+  }
   const { data: dohResponse } = await axios.get(
     `${dohServer}?name=_bsvalias._tcp.${domain}&type=SRV&cd=0`
   )
