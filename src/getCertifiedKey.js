@@ -16,7 +16,7 @@ const getServerConfig = require('./getServerConfig')
 module.exports = async (paymail, authriteClient, config) => {
   const [alias, domain] = paymail.split('@')
   const serverConfig = await getServerConfig(paymail, config)
-  const url = serverConfig.capabilities['747a1532f8fd']['cc7e1ab66d10']
+  const url = serverConfig.capabilities['747a1532f8fd'].cc7e1ab66d10
     .replace('{alias}', alias)
     .replace('{domain.tld}', domain)
   const { body } = await authriteClient.request(url, { method: 'GET' })

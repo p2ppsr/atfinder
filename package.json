@@ -4,8 +4,8 @@
   "description": "Paymail Client",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --env=node",
+    "test:watch": "jest --watch --env=node",
     "doc": "documentation readme src/index.js --section=API",
     "lint": "standard --fix ."
   },

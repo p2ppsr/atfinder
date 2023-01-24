@@ -21,15 +21,22 @@ module.exports = async (
   // Allow resolving Paymails when the server is running locally for testing
   if (domain === 'localhost' || domain.startsWith('localhost:')) {
     const { data: serverConfig } = await axios.get(
-    `http://${domain}/.well-known/bsvalias`
+      `http://${domain}/.well-known/bsvalias`
     )
     return serverConfig
   }
   const { data: dohResponse } = await axios.get(
     `${dohServer}?name=_bsvalias._tcp.${domain}&type=SRV&cd=0`
   )
-  let hostDomain = dohResponse.Answer[0].data.split(' ').pop()
-  hostDomain = hostDomain.substr(0, hostDomain.length - 1)
+  let hostDomain
+  if (dohResponse.Answer) {
+    hostDomain = dohResponse.Answer[0].data.split(' ').pop()
+    hostDomain = hostDomain.substr(0, hostDomain.length - 1)
+  } else {
+    hostDomain = domain
+    if (hostDomain === 'moneybutton.com') hostDomain = 'www.moneybutton.com' // Browsers get CORS error on 302 redirect. Hard code this until moneybutton fixes it.
+  }
+
   const { data: serverConfig } = await axios.get(
     `https://${hostDomain}/.well-known/bsvalias`
   )
