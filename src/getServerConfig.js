@@ -34,6 +34,7 @@ module.exports = async (
     hostDomain = hostDomain.substr(0, hostDomain.length - 1)
   } else {
     hostDomain = domain
+    if (hostDomain === 'moneybutton.com') hostDomain = 'www.moneybutton.com' // Browsers get CORS error on 302 redirect. Hard code this until moneybutton fixes it.
   }
 
   const { data: serverConfig } = await axios.get(
