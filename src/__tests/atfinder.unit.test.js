@@ -1,3 +1,5 @@
+/* global expect it describe jest beforeEach afterEach */
+
 const atfinder = require('../index')
 const axios = require('axios')
 
@@ -19,14 +21,14 @@ const VALID_BSVALIAS = {
       f12f968c92d6: 'f12f968c92d6/{alias}@{domain.tld}',
       pki: 'pki/{alias}@{domain.tld}',
       e70928472537: 'e70928472537/{alias}@{domain.tld}',
-      "747a1532f8fd": {
-        "initialRequest": "/authrite/initialRequest",
-        "cc7e1ab66d10": "/getCertifiedKey/{alias}@{domain.tld}",
-        "92be59b59616": {
-          "protocols": {
-            "3241645161d8": true
+      '747a1532f8fd': {
+        initialRequest: '/authrite/initialRequest',
+        cc7e1ab66d10: '/getCertifiedKey/{alias}@{domain.tld}',
+        '92be59b59616': {
+          protocols: {
+            '3241645161d8': true
           },
-          "paymentURL": "/submitSPVTransaction/{alias}@{domain.tld}"
+          paymentURL: '/submitSPVTransaction/{alias}@{domain.tld}'
         }
       }
     }
@@ -35,7 +37,8 @@ const VALID_BSVALIAS = {
 
 describe('atfinder', () => {
   beforeEach(() => {
-    axios.get.mockReturnValueOnce(VALID_DNS_RESPONSE)
+    axios.get
+      .mockReturnValueOnce(VALID_DNS_RESPONSE)
       .mockReturnValueOnce(VALID_BSVALIAS)
   })
   afterEach(() => {
@@ -45,7 +48,9 @@ describe('atfinder', () => {
     const result = await atfinder.getServerConfig('ty@tyweb.us')
     expect(result).toEqual(VALID_BSVALIAS.data)
     expect(axios.get.mock.calls).toEqual([
-      ['https://dns.google.com/resolve?name=_bsvalias._tcp.tyweb.us&type=SRV&cd=0'],
+      [
+        'https://dns.google.com/resolve?name=_bsvalias._tcp.tyweb.us&type=SRV&cd=0'
+      ],
       ['https://mock.host/.well-known/bsvalias']
     ])
   })
@@ -61,9 +66,7 @@ describe('atfinder', () => {
       name: 'Ty Everett',
       photoURL: 'MOCK_URL'
     })
-    expect(axios.get.mock.calls[2]).toEqual([
-      'f12f968c92d6/ty@tyweb.us'
-    ])
+    expect(axios.get.mock.calls[2]).toEqual(['f12f968c92d6/ty@tyweb.us'])
   })
   it('getIdentityKeyForPaymail', async () => {
     axios.get.mockReturnValueOnce({
@@ -71,9 +74,7 @@ describe('atfinder', () => {
     })
     const result = await atfinder.getIdentityKeyForPaymail('ty@tyweb.us')
     expect(result).toEqual('MOCK_GET_ID_KEY')
-    expect(axios.get.mock.calls[2]).toEqual([
-      'pki/ty@tyweb.us'
-    ])
+    expect(axios.get.mock.calls[2]).toEqual(['pki/ty@tyweb.us'])
   })
   it('verifyPublicKeyForPaymail', async () => {
     axios.get.mockReturnValueOnce({
@@ -108,12 +109,9 @@ describe('atfinder', () => {
     axios.post.mockReturnValueOnce({
       data: 'MOCK_SUBMIT_SPV'
     })
-    const result = await atfinder.submitSPVTransaction(
-      'ty@tyweb.us',
-      {
-        envelopeField: 'MOCK_VALUE'
-      }
-    )
+    const result = await atfinder.submitSPVTransaction('ty@tyweb.us', {
+      envelopeField: 'MOCK_VALUE'
+    })
     expect(result).toEqual('MOCK_SUBMIT_SPV')
     expect(axios.post.mock.calls[0]).toEqual([
       'e70928472537/ty@tyweb.us',
@@ -126,9 +124,12 @@ describe('atfinder', () => {
     const authriteClient = {
       request: jest.fn((url, config) => {
         return {
-          body: Buffer.from(JSON.stringify({
-            server: 'response'
-          }), 'utf8')
+          body: Buffer.from(
+            JSON.stringify({
+              server: 'response'
+            }),
+            'utf8'
+          )
         }
       })
     }
@@ -137,19 +138,21 @@ describe('atfinder', () => {
       authriteClient
     )
     expect(result).toEqual({ server: 'response' })
-    expect(authriteClient.request)
-      .toHaveBeenLastCalledWith(
-        '/getCertifiedKey/ty@tyweb.us',
-        { method: 'GET' }
-      )
+    expect(authriteClient.request).toHaveBeenLastCalledWith(
+      '/getCertifiedKey/ty@tyweb.us',
+      { method: 'GET' }
+    )
   })
   it('submitType42Payment', async () => {
     const authriteClient = {
       request: jest.fn((url, config) => {
         return {
-          body: Buffer.from(JSON.stringify({
-            server: 'response'
-          }), 'utf8')
+          body: Buffer.from(
+            JSON.stringify({
+              server: 'response'
+            }),
+            'utf8'
+          )
         }
       })
     }
@@ -159,11 +162,10 @@ describe('atfinder', () => {
       authriteClient
     )
     expect(result).toEqual({ server: 'response' })
-    expect(authriteClient.request)
-      .toHaveBeenLastCalledWith(
-        '/submitSPVTransaction/ty@tyweb.us',
-        { method: 'POST', body: { test: 'body' } }
-      )
+    expect(authriteClient.request).toHaveBeenLastCalledWith(
+      '/submitSPVTransaction/ty@tyweb.us',
+      { method: 'POST', body: { test: 'body' } }
+    )
   })
   it('deprecatedSubmitP2PTransaction', async () => {
     axios.post.mockReturnValueOnce({
